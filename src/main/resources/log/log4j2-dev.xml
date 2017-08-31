@@ -14,7 +14,7 @@
 
 	<Loggers>
 		<!-- 当前应用日志输出 -->
-		<Logger name="com.modianli.spider" level="debug"  additivity="false" >
+		<Logger name="com.security.demo" level="debug"  additivity="false" >
 			<AppenderRef ref="Console" />
 		</Logger>
 		

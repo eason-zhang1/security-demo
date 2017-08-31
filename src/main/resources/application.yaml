@@ -4,20 +4,21 @@ logging:
 #spring.session.redis.flush-mode: on_save
 #spring.session.store-type: redis
 spring:
-  freemarker:
-    cache: true
-    charset: UTF-8
-    enabled: false
   datasource:
-      url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: root
-      password: 123456
-      type: com.zaxxer.hikari.HikariDataSource
-      driver-class-name: com.mysql.jdbc.Driver
-    jpa:
-      properties:
-        hibernate.format_sql: true
-        hibernate.show_sql: true
-        hibernate.hbm2ddl.auto: update
-        hibernate.dialect: org.hibernate.dialect.MySQL57InnoDBDialect
+    url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    properties:
+      hibernate.format_sql: true
+      hibernate.show_sql: true
+      hibernate.hbm2ddl.auto: update
+      hibernate.dialect: org.hibernate.dialect.MySQL57InnoDBDialect
       database-platform: MYSQL
+  aop:
+    proxy-target-class: true
+
+server:
+  port: 12345
