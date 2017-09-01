@@ -1,7 +1,9 @@
 package com.security.demo.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.demo.entity.User;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -11,6 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 @Configuration
 public class BeanConfig {
+
+  @Autowired
+  private ObjectMapper objectMapper;
 
   @Bean("securityAuditor")
   public AuditorAware<String> auditor(){
@@ -25,4 +30,21 @@ public class BeanConfig {
 	  return ((User) authentication.getPrincipal()).getUsername();
 	};
   }
+
+  /*@Bean(name = "objectRedisTemplate")
+  public RedisTemplate<Object, Object> objectRedisTemplate(RedisConnectionFactory factory){
+	StringRedisSerializer stringSerializer = new StringRedisSerializer();
+	Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+	jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+
+    RedisTemplate<Object, Object> objectRedisTemplate = new RedisTemplate<>();
+    objectRedisTemplate.setConnectionFactory(factory);
+	objectRedisTemplate.setKeySerializer(stringSerializer);
+	objectRedisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+	objectRedisTemplate.setHashKeySerializer(stringSerializer);
+	objectRedisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+	objectRedisTemplate.afterPropertiesSet();
+
+	return objectRedisTemplate;
+  }*/
 }
