@@ -12,9 +12,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.data.redis.RedisOperationsSessionRepository;
+import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserDetailsServiceImpl userDetailsService;
 
+  @Autowired
+  RedisOperationsSessionRepository redisOperationsSessionRepository;
+
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	auth.userDetailsService(userDetailsService)
@@ -34,8 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public SessionRegistry sessionRegistry(){
-	return new SessionRegistryImpl();
+  public SpringSessionBackedSessionRegistry sessionRegistry(){
+	return new SpringSessionBackedSessionRegistry((FindByIndexNameSessionRepository) this.redisOperationsSessionRepository);
   }
 
   //对每个请求进行细粒度安全性控制的关键在于重载一下方法
@@ -48,8 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.frameOptions()
 		.disable()
 		.and()
+		//只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面
 		.sessionManagement().maximumSessions(1)
-		.expiredUrl("/api/public/expired").sessionRegistry(sessionRegistry());
+		.expiredUrl("/api/public/login").sessionRegistry(sessionRegistry());
 
 	http.authorizeRequests()
 		.antMatchers("/api/public/**").permitAll()

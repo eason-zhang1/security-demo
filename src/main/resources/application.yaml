@@ -24,9 +24,6 @@ spring:
     password: test123
     port: 6379
     database: 10
-  ###java8 时间API序列化
-  jackson:
-    serialization.WRITE_DATES_AS_TIMESTAMPS: false
 
 
 server:

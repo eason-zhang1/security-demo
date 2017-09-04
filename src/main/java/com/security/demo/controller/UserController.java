@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/public")
@@ -39,7 +40,7 @@ public class UserController {
   private BCryptPasswordEncoder passwordEncoder;
 
   @PostMapping("/user/login")
-  public Map<String, String> login(@RequestBody Map<String, String> loginBody){
+  public Map<String, String> login(@RequestBody Map<String, String> loginBody, HttpServletRequest request){
 
     //其他信息校验。。。
 
@@ -49,10 +50,13 @@ public class UserController {
 												  loginBody.get("password"));
 
 	final Authentication authentication = this.authenticationManager.authenticate(token);
-	SecurityContextHolder.getContext().setAuthentication(authentication);
 
+	final HttpSession session = request.getSession(true);
+	SecurityContextHolder.getContext().setAuthentication(authentication);
+	/*session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+						 SecurityContextHolder.getContext());*/
 	//cookie data...
-	return MsgUtil.getMsg("成功");
+	return MsgUtil.getMsg("成功:" + session.getId());
   }
 
   @PostMapping("/user/register")
