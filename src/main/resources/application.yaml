@@ -24,6 +24,15 @@ spring:
     password: test123
     port: 6379
     database: 10
+  freemarker:
+    cache: false
+    charset: utf-8
+    content-type: text/html
+    check-template-location: true
+    suffix: .html
+    #expose-request-attributes: true
+    ##expose-session-attributes: true
+    #request-context-attribute: request
 
 
 server:
