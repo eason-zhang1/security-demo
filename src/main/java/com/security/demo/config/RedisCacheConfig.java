@@ -12,14 +12,14 @@ import org.springframework.cache.interceptor.SimpleCacheResolver;
 import org.springframework.cache.interceptor.SimpleKeyGenerator;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 @Configuration
 @EnableCaching
 public class RedisCacheConfig implements CachingConfigurer{
 
   @Autowired
-  private RedisTemplate<Object, Object> redisTemplate;
+  private StringRedisTemplate redisTemplate;
 
   @Override
   public CacheManager cacheManager() {

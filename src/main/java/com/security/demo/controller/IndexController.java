@@ -1,5 +1,7 @@
 package com.security.demo.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.demo.entity.User;
 import com.security.demo.jpa.UserRepository;
 
@@ -23,10 +25,18 @@ public class IndexController {
   @Autowired
   private MessageSource messageSource;
 
+  @Autowired
+  private ObjectMapper objectMapper;
+
   @GetMapping("/index")
   @Cacheable(value = "test:cache:methods", key = "#root.method.name")
-  public User index(){
-    return userRepository.findOne(2L);
+  public String index() throws JsonProcessingException {
+    User user = userRepository.findOne(2L);
+    if(user != null){
+      return objectMapper.writeValueAsString(user);
+    }else {
+      return null;
+    }
   }
 
   @GetMapping("/index2")
