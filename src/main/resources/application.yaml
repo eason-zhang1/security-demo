@@ -33,7 +33,9 @@ spring:
     #expose-request-attributes: true
     ##expose-session-attributes: true
     #request-context-attribute: request
-
+  messages:
+    encoding: utf-8
+    basename: messages/message
 
 server:
   port: 12345
