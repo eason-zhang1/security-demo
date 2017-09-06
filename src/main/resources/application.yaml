@@ -39,3 +39,8 @@ spring:
 
 server:
   port: 12345
+
+self:
+  name: ez
+  id: 1
+  home: http://www.baidu.com

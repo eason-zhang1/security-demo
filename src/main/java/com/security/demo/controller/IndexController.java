@@ -2,6 +2,7 @@ package com.security.demo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.security.demo.config.BeanConfig.Self;
 import com.security.demo.entity.User;
 import com.security.demo.jpa.UserRepository;
 
@@ -28,6 +29,9 @@ public class IndexController {
   @Autowired
   private ObjectMapper objectMapper;
 
+  @Autowired
+  private Self self;
+
   @GetMapping("/index")
   @Cacheable(value = "test:cache:methods", key = "#root.method.name")
   public String index() throws JsonProcessingException {
@@ -43,5 +47,10 @@ public class IndexController {
   public String index2(){
     Locale locale = LocaleContextHolder.getLocale();//zh_CN
     return messageSource.getMessage("welcome", null, null);
+  }
+
+  @GetMapping("/index3")
+  public String index3() throws JsonProcessingException {
+    return objectMapper.writeValueAsString(self);
   }
 }

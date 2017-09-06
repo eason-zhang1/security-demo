@@ -4,12 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.demo.entity.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import lombok.Data;
 
 @Configuration
 public class BeanConfig {
@@ -47,4 +51,15 @@ public class BeanConfig {
 
 	return objectRedisTemplate;
   }*/
+
+  @Data
+  @Component
+  @ConfigurationProperties(prefix = "self")
+  public static class Self{
+
+    private String id;
+    private String name;
+    private String home;
+
+  }
 }
