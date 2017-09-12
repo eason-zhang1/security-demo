@@ -44,3 +44,9 @@ self:
   name: ez
   id: 1
   home: http://www.baidu.com
+
+async:
+  executor:
+    corePoolSize: 10
+    maxPoolSize: 200
+    queueCapacity: 10

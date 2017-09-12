@@ -6,6 +6,7 @@ import com.security.demo.config.BeanConfig.Self;
 import com.security.demo.entity.User;
 import com.security.demo.jpa.UserRepository;
 import com.security.demo.lock.Lockable;
+import com.security.demo.service.AsyncService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -15,10 +16,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.Future;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/public")
+@Slf4j
 public class IndexController {
 
   @Autowired
@@ -32,6 +39,9 @@ public class IndexController {
 
   @Autowired
   private Self self;
+
+  @Autowired
+  private AsyncService asyncService;
 
   @GetMapping("/index")
   @Cacheable(value = "test:cache:methods", key = "#root.method.name")
@@ -60,5 +70,21 @@ public class IndexController {
   public String index4() throws Exception {
     Thread.sleep(7000);
 	return objectMapper.writeValueAsString(self);
+  }
+
+  @GetMapping("/index5")
+  public Map<String, String> index5() throws Exception {
+	Future<Map<String, String>> future = asyncService.getTask();
+    while(true){
+      log.info("time is {}", LocalDateTime.now());
+      if(future.isDone()){
+		log.info(" ---------task is done");
+        return future.get();
+	  }else{
+        log.info(" ---------task is not done");
+	  }
+
+	  Thread.sleep(5000);
+	}
   }
 }
