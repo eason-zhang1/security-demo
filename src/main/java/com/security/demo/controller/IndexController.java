@@ -2,6 +2,7 @@ package com.security.demo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.security.demo.annotation.TestAnn;
 import com.security.demo.config.BeanConfig.Self;
 import com.security.demo.entity.User;
 import com.security.demo.jpa.UserRepository;
@@ -55,6 +56,7 @@ public class IndexController {
   }
 
   @GetMapping("/index2")
+  @TestAnn("哈哈哈")
   public String index2() {
 	Locale locale = LocaleContextHolder.getLocale();//zh_CN
 	return messageSource.getMessage("welcome", null, null);

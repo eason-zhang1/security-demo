@@ -1,12 +1,14 @@
 package com.security.demo.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.security.demo.component.AnnotationScannerComponent;
 import com.security.demo.entity.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,8 +16,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
+@Slf4j
 public class BeanConfig {
 
   @Autowired
@@ -61,5 +65,12 @@ public class BeanConfig {
     private String name;
     private String home;
 
+  }
+
+  @Bean
+  @Order
+  public AnnotationScannerComponent initComponent(){
+    log.info("init.... compent");
+    return new AnnotationScannerComponent();
   }
 }
