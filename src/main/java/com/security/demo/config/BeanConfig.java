@@ -2,6 +2,7 @@ package com.security.demo.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.demo.component.AnnotationScannerComponent;
+import com.security.demo.component.SpringHolder;
 import com.security.demo.entity.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,13 @@ public class BeanConfig {
   @Bean
   @Order
   public AnnotationScannerComponent initComponent(){
-    log.info("init.... compent");
+    log.info("init.... component");
     return new AnnotationScannerComponent();
+  }
+
+  @Bean
+  public SpringHolder initSpringHolder(){
+    log.info("init spring holder component");
+    return new SpringHolder();
   }
 }
